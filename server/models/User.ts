@@ -1,0 +1,33 @@
+import {Schema, model, Document} from 'mongoose';
+
+export interface IUser extends Document {
+    username: string;
+    email: string;
+    password?: string;
+    phone?: string;
+    role: "user" | "admin" | "owner";
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+const userSchema = new Schema<IUser>({
+    username: { type: String, required: true, trim: true },
+    email: { type: String, required: true, unique: true, lowercase: true },
+    password: { type: String, required: true, minlength: 6 },
+    phone: { type: String, trim: true, minlength: 10, maxlength: 15 },
+    role: { type: String, enum: ["user", "admin", "owner"], default: "user" }
+}, {
+    timestamps: true
+});
+
+// Remove password field when converting to JSON
+userSchema.set('toJSON', {
+    transform: (doc, ret) => {
+        delete ret.password;
+        return ret;
+    }
+});
+
+const User = model<IUser>('User', userSchema);
+
+export default User;
