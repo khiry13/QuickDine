@@ -4,8 +4,8 @@ import { getFeaturedResturants, getResturantAvailability, getResturantBySlug, ge
 
 const resturantRouter = Router();
 
-resturantRouter.post("/", getResturants);
-resturantRouter.post("/featured", getFeaturedResturants);
+resturantRouter.get("/", getResturants);
+resturantRouter.get("/featured", getFeaturedResturants);
 resturantRouter.get("/:slug", getResturantBySlug);
 resturantRouter.get("/:id/availability", getResturantAvailability);
 

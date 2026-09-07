@@ -13,9 +13,9 @@ const generateToken = (userId: string) => {
 // Post /api/auth/register
 export const registerUser = async (req: Request, res: Response) => {
     try {
-        const { username, email, password, phone, role } = req.body;
+        const { name, email, password, phone, role } = req.body;
 
-        if (!username || !email || !password) {
+        if (!name || !email || !password) {
             return res.status(400).json({ error: "Please provide all required fields" });
         }
 
@@ -30,7 +30,7 @@ export const registerUser = async (req: Request, res: Response) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const newUser = await User.create({
-            username,
+            name,
             email,
             password: hashedPassword,
             phone,
@@ -41,7 +41,7 @@ export const registerUser = async (req: Request, res: Response) => {
             const token = generateToken(newUser._id.toString());
             res.status(201).json({
                 _id: newUser._id,
-                username: newUser.username,
+                name: newUser.name,
                 email: newUser.email,
                 phone: newUser.phone,
                 role: newUser.role,
@@ -81,7 +81,7 @@ export const loginUser = async (req: Request, res: Response) => {
         const token = generateToken(userExists._id.toString());
         res.status(200).json({
             _id: userExists._id,
-            username: userExists.username,
+            name: userExists.name,
             email: userExists.email,
             phone: userExists.phone,
             role: userExists.role,
