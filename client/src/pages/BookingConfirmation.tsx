@@ -83,7 +83,7 @@ export default function BookingConfirmation() {
             setConfirming(true);
 
             const res = await api.post("/bookings", {
-                restaurantId: restaurant._id,
+                resturantId: restaurant._id,
                 date,
                 time: slot,
                 guests,

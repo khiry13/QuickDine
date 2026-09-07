@@ -29,7 +29,7 @@ const seedData = async () => {
     const ownerPassword = await bcrypt.hash("owner123", salt);
 
     const adminUser = await User.create({
-      username: "Admin User",
+      name: "Admin User",
       email: "admin@example.com",
       password: adminPassword,
       phone: "1234567890",
@@ -37,7 +37,7 @@ const seedData = async () => {
     });
 
     const ownerUser = await User.create({
-      username: "Owner User",
+      name: "Owner User",
       email: "owner@example.com",
       password: ownerPassword,
       phone: "0987654321",
@@ -45,7 +45,7 @@ const seedData = async () => {
     });
 
     const regularUser = await User.create({
-      username: "Regular User",
+      name: "Regular User",
       email: "user@example.com",
       password: userPassword,
       phone: "1111111111",
@@ -187,16 +187,16 @@ const seedData = async () => {
     console.log("Seeding restaurants...");
 
     const updatedRestaurantsData = RestaurantsData.map((rest, idx) => {
-        const {...restInfo} = rest;
-        return {
-            ...restInfo,
-            owner: ownerUser._id,
-            status: "approved",
-            totalSeats: 20 + idx * 5, // Increment total seats for each restaurant
-        };
-    })
+      const { ...restInfo } = rest;
+      return {
+        ...restInfo,
+        owner: ownerUser._id,
+        status: "approved",
+        totalSeats: 20 + idx * 5, // Increment total seats for each restaurant
+      };
+    });
     await Resturant.insertMany(updatedRestaurantsData);
-    
+
     console.log("Seeding completed successfully!");
 
     await mongoose.disconnect();
